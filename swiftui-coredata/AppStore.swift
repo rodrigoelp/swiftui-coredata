@@ -10,7 +10,6 @@ class AppStore: ObservableObject {
     private var disposeBag: Set<AnyCancellable> = []
     @Published var userName: String = ""
     @Published var users: [User] = []
-    @Published var createUserEvent: Bool = false
 
     init(_ db: Database) {
         database = db
@@ -71,7 +70,7 @@ class Database {
             return user
         }
         .publisher
-        .catch({ _ in Just(.none) })
+        .catch({ _ in Just(.none) }) // ignoring errors...
         .eraseToAnyPublisher()
     }
 
@@ -81,7 +80,7 @@ class Database {
             return try context.fetch(request)
         }
         .publisher
-        .catch({ _ in Just([]) })
+        .catch({ _ in Just([]) }) // Ignoring errors...
         .eraseToAnyPublisher()
     }
 
@@ -98,7 +97,7 @@ class Database {
             return ()
         }
         .publisher
-        .catch({ _ in Just(()) })
+        .catch({ _ in Just(()) }) // ignoring for now the errors...
         .eraseToAnyPublisher()
     }
 }
